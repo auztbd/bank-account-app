@@ -52,15 +52,4 @@ class AccountController(
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
     }
-
-
-    // DONE deposit money to account
-
-    // HALF-DONE transfer money to iban
-
-    // DONE current balance of my account
-
-    // DONE filter accounts by type
-
-    // DONE show transaction history by iban
 }
