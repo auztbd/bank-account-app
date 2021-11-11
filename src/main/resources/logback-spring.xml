@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="JSON_CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.example.banca.config.logging.CustomLoggerLayout">
+                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
+                <timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>
+                <appendLineSeparator>true</appendLineSeparator>
+                <includeContextName>false</includeContextName>
+                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                    <!--uncomment for pretty printing-->
+                    <!--<prettyPrint>true</prettyPrint>-->
+                </jsonFormatter>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.apache.fop" level="INFO"/>
+
+    <root name="jsonLogger" level="INFO">
+        <springProfile name="production,staging,testing">
+            <appender-ref ref="JSON_CONSOLE_APPENDER"/>
+        </springProfile>
+
+        <springProfile name="test,default">
+            <appender-ref ref="CONSOLE_APPENDER"/>
+        </springProfile>
+    </root>
+</configuration>

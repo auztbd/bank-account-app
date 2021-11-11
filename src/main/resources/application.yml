@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    username: sa
+    password: pwd
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  exposed:
+    generate-ddl: true
+
+server:
+  port: 8085
+
+messaging:
+  message-ttl: 800 # in ms
