@@ -6,6 +6,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.0"
     id("org.springframework.boot") version "2.6.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.github.ben-manes.versions") version "0.39.0"
 }
 
 group = "org.example"
@@ -29,10 +30,12 @@ tasks {
     withType<Test> {
         useJUnitPlatform()
         testLogging.showStackTraces = true
+        finalizedBy(jacocoTestReport)
     }
 }
 
-val exposedVersion = "0.36.1"
+val exposedVersion = "0.36.2"
+val restAssuredVersion = "4.4.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
@@ -50,7 +53,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.rest-assured:rest-assured:4.4.0")
-    testImplementation("io.rest-assured:json-path:4.4.0")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("com.ninja-squad:springmockk:3.0.1")
 }
