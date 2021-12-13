@@ -1,9 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
-    id("org.springframework.boot") version "2.5.6"
+    jacoco
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.spring") version "1.6.0"
+    id("org.springframework.boot") version "2.6.1"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
 }
 
 group = "org.example"
@@ -13,9 +15,16 @@ repositories {
     mavenCentral()
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions {
+            jvmTarget = "11"
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+        }
     }
     withType<Test> {
         useJUnitPlatform()
@@ -23,16 +32,15 @@ tasks {
     }
 }
 
-val springBootVersion = "2.5.6"
 val exposedVersion = "0.36.1"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-amqp:$springBootVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
-    implementation("io.github.microutils:kotlin-logging:2.0.11")
+    implementation("io.github.microutils:kotlin-logging:2.1.0")
     implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
     implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
 
@@ -40,8 +48,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jodatime:$exposedVersion")
     implementation("com.h2database:h2:1.4.200")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.rest-assured:rest-assured:4.4.0")
     testImplementation("io.rest-assured:json-path:4.4.0")
     testImplementation("com.ninja-squad:springmockk:3.0.1")
